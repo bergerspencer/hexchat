@@ -8,6 +8,13 @@ prefix = os.environ.get('MESON_INSTALL_PREFIX', '/usr/local')
 datadir = os.path.join(prefix, 'share')
 with_thememan = sys.argv[1] == 'true'
 
+if sys.platform == "darwin":
+    for f in os.listdir(prefix + "/lib/hexchat/plugins"):
+        fname, fext = os.path.splitext(prefix + "/lib/hexchat/plugins/" + f)
+        if fext == ".dylib":
+            print("fname")
+            os.symlink(fname + fext, fname + ".so")
+
 # Packaging tools define DESTDIR and this isn't needed for them
 if 'DESTDIR' not in os.environ:
     print('Updating icon cache...')
